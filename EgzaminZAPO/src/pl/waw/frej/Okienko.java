@@ -333,7 +333,7 @@ public class Okienko extends javax.swing.JFrame {
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-        String path = getFilePath();
+        String path = getOpenFilePath();
         if (!"".equals(path)) {
             krzywa = new KrzywaDyskretna(GRID_WIDTH, gridSize);
             krzywa.openFile(path);
@@ -372,6 +372,24 @@ public class Okienko extends javax.swing.JFrame {
         JFileChooser c = new JFileChooser();
         // Demonstrate "Save" dialog:
         int rVal = c.showSaveDialog(Okienko.this);
+        if (rVal == JFileChooser.APPROVE_OPTION) {
+            System.out.println(c.getCurrentDirectory().toString() + File.separator + c.getSelectedFile().getName());
+            return (c.getCurrentDirectory().toString() + File.separator + c.getSelectedFile().getName());
+
+
+        }
+        if (rVal == JFileChooser.CANCEL_OPTION) {
+            System.out.println("You pressed cancel");
+            System.out.println("");
+            return "";
+        }
+        return "";
+
+    }
+    private String getOpenFilePath() throws HeadlessException {
+        JFileChooser c = new JFileChooser();
+        // Demonstrate "Save" dialog:
+        int rVal = c.showOpenDialog(Okienko.this);
         if (rVal == JFileChooser.APPROVE_OPTION) {
             System.out.println(c.getCurrentDirectory().toString() + File.separator + c.getSelectedFile().getName());
             return (c.getCurrentDirectory().toString() + File.separator + c.getSelectedFile().getName());
