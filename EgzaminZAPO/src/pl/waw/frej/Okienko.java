@@ -19,8 +19,8 @@ public class Okienko extends javax.swing.JFrame {
     public static final int GRID_WIDTH = 20;
     Integer gridSize = 20;
     private KrzywaDyskretna krzywa = new KrzywaDyskretna(GRID_WIDTH, gridSize);
-    private KrzywaDyskretna interpolująca = new KrzywaDyskretna(GRID_WIDTH, gridSize);
-
+    private KrzywaDyskretna interpolująca;
+    private Integer n;
     /**
      * Creates new form Okienko
      */
@@ -51,6 +51,7 @@ public class Okienko extends javax.swing.JFrame {
         SaveCompressedMenu = new javax.swing.JMenu();
         saveToChainCodeMenuItem = new javax.swing.JMenuItem();
         saveToDiffCodeMenuItem = new javax.swing.JMenuItem();
+        saveToIntr1MenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         compressionMenu = new javax.swing.JMenu();
         chainCodeMenuItem = new javax.swing.JMenuItem();
@@ -110,7 +111,7 @@ public class Okienko extends javax.swing.JFrame {
         );
         siatkaLayout.setVerticalGroup(
             siatkaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 536, Short.MAX_VALUE)
+            .addGap(0, 544, Short.MAX_VALUE)
         );
 
         fileMenu.setText("File");
@@ -156,6 +157,14 @@ public class Okienko extends javax.swing.JFrame {
             }
         });
         SaveCompressedMenu.add(saveToDiffCodeMenuItem);
+
+        saveToIntr1MenuItem.setText("Intr1");
+        saveToIntr1MenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveToIntr1MenuItemActionPerformed(evt);
+            }
+        });
+        SaveCompressedMenu.add(saveToIntr1MenuItem);
 
         fileMenu.add(SaveCompressedMenu);
 
@@ -352,8 +361,9 @@ public class Okienko extends javax.swing.JFrame {
 
     private void intr1MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intr1MenuItemActionPerformed
         //JOptionPane.showMessageDialog(this, krzywa.getIntr1Stats(), "Intr1 stats", JOptionPane.PLAIN_MESSAGE);
-        int n = Integer.decode(JOptionPane.showInputDialog(this, "Podaj n", "Podaj n",JOptionPane.PLAIN_MESSAGE));
-        siatka.setInterpolująca(krzywa.getInterpolująca(n));
+        n = Integer.decode(JOptionPane.showInputDialog(this, "Podaj n", "Podaj n",JOptionPane.PLAIN_MESSAGE));
+        interpolująca=krzywa.getInterpolująca(n);
+        siatka.setInterpolująca(interpolująca);
         
     }//GEN-LAST:event_intr1MenuItemActionPerformed
 /*
@@ -369,6 +379,13 @@ public class Okienko extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_siatkaPanel1MouseReleased
 */
+    private void saveToIntr1MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToIntr1MenuItemActionPerformed
+        String path = getFilePath();
+        if (!"".equals(path)) {
+            krzywa.saveIntr1File(path, binaryCheckBox.isSelected(),n);
+        }
+    }//GEN-LAST:event_saveToIntr1MenuItemActionPerformed
+
     private String getFilePath() throws HeadlessException {
         JFileChooser c = new JFileChooser();
         // Demonstrate "Save" dialog:
@@ -387,6 +404,7 @@ public class Okienko extends javax.swing.JFrame {
         return "";
 
     }
+
     private String getOpenFilePath() throws HeadlessException {
         JFileChooser c = new JFileChooser();
         // Demonstrate "Save" dialog:
@@ -460,6 +478,7 @@ public class Okienko extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem saveToChainCodeMenuItem;
     private javax.swing.JMenuItem saveToDiffCodeMenuItem;
+    private javax.swing.JMenuItem saveToIntr1MenuItem;
     private pl.waw.frej.SiatkaPanel siatka;
     // End of variables declaration//GEN-END:variables
 }

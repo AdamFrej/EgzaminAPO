@@ -307,10 +307,40 @@ public class KrzywaDyskretna {
         }
         ArrayList<Point> węzłyInterpolacji = new ArrayList<>();
         for (int i = 0; i < points.size(); i++) {
-            if (i % (n+1) == 0) {
+            if (i % (n + 1) == 0) {
                 węzłyInterpolacji.add(points.get(i));
             }
         }
         return new KrzywaDyskretna(węzłyInterpolacji, gridWidth, gridSize);
+    }
+
+    void saveIntr1File(String path, boolean binary, int n) {
+        Writer writer = null;
+
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(path), "utf-8"));
+
+            writer.write(gridSize + "\n");
+
+            for (int i = 0; i < this.getInterpolująca(n).getPoints().size(); i++) {
+                if (binary) {
+                    int leadingDigit = (int) Math.pow(2, Integer.toBinaryString(gridSize - 1).length());
+                    writer.write(addLeadingZeros(this.getInterpolująca(n).getPoints().get(i).x / gridWidth, leadingDigit) + addLeadingZeros(this.getInterpolująca(n).getPoints().get(i).y / gridWidth, leadingDigit));
+                } else {
+                    int leadingDigit = (int) Math.pow(10, Integer.toString(gridSize - 1).length());
+                    writer.write(addLeadingZerosDecimal(this.getInterpolująca(n).getPoints().get(i).x / gridWidth, leadingDigit) + addLeadingZerosDecimal(this.getInterpolująca(n).getPoints().get(i).y / gridWidth, leadingDigit));
+                }
+            }
+
+
+        } catch (IOException ex) {
+            // report
+        } finally {
+            try {
+                writer.close();
+            } catch (Exception ex) {
+            }
+        }
     }
 }
