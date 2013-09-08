@@ -301,10 +301,13 @@ public class KrzywaDyskretna {
         return "n=5";
     }
 
-    KrzywaDyskretna getInterpolująca() {
+    KrzywaDyskretna getInterpolująca(int n) {
+        if (n < 2 || n > points.size()) {
+            throw new IllegalArgumentException();
+        }
         ArrayList<Point> węzłyInterpolacji = new ArrayList<>();
         for (int i = 0; i < points.size(); i++) {
-            if (i % 5 == 0) {
+            if (i % (n+1) == 0) {
                 węzłyInterpolacji.add(points.get(i));
             }
         }

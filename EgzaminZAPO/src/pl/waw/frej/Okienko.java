@@ -351,8 +351,9 @@ public class Okienko extends javax.swing.JFrame {
     }//GEN-LAST:event_differentialChainCodeMenuItemActionPerformed
 
     private void intr1MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intr1MenuItemActionPerformed
-        JOptionPane.showMessageDialog(this, krzywa.getIntr1Stats(), "Intr1 stats", JOptionPane.PLAIN_MESSAGE);
-        siatka.setInterpolująca(krzywa.getInterpolująca());
+        //JOptionPane.showMessageDialog(this, krzywa.getIntr1Stats(), "Intr1 stats", JOptionPane.PLAIN_MESSAGE);
+        int n = Integer.decode(JOptionPane.showInputDialog(this, "Podaj n", "Podaj n",JOptionPane.PLAIN_MESSAGE));
+        siatka.setInterpolująca(krzywa.getInterpolująca(n));
         
     }//GEN-LAST:event_intr1MenuItemActionPerformed
 /*
