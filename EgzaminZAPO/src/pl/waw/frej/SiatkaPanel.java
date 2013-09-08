@@ -129,6 +129,23 @@ public class SiatkaPanel extends JPanel {
         for(Point p:interpolująca.getPoints()){
             g.fillOval(p.x - 5, p.y - 5, 10, 10);
         }
+        
+        for(int i = 0; i < interpolująca.getPoints().size()-1; i++){
+            Point obecny = interpolująca.getPoints().get(i);
+            Point następny = interpolująca.getPoints().get(i+1);
+            
+            double a =(następny.y- obecny.y)/(następny.x- obecny.x);
+            double b = obecny.y - a*obecny.x;
+            
+            for(int j=obecny.x;j<=następny.x;j++){
+                int y = (int) (a*j+b);
+                Point punktInterpolowany = snapToGrid(new Point(j,y));
+                g.fillOval(punktInterpolowany.x - 2, punktInterpolowany.y - 2, 4, 4);
+            }
+            
+        }
+        
+        
         for (int i=0;i<interpolująca.getPoints().size()-1;i++) {
             g.drawLine(interpolująca.getPoints().get(i).x,interpolująca.getPoints().get(i).y, interpolująca.getPoints().get(i+1).x,interpolująca.getPoints().get(i+1).y);
         }
