@@ -366,19 +366,7 @@ public class Okienko extends javax.swing.JFrame {
         siatka.setInterpolująca(interpolująca);
         
     }//GEN-LAST:event_intr1MenuItemActionPerformed
-/*
-    private void siatkaMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_siatkaPanel1MouseDragged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_siatkaPanel1MouseDragged
 
-    private void siatkaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_siatkaPanel1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_siatkaPanel1MouseClicked
-
-    private void siatkaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_siatkaPanel1MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_siatkaPanel1MouseReleased
-*/
     private void saveToIntr1MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToIntr1MenuItemActionPerformed
         String path = getFilePath();
         if (!"".equals(path)) {
