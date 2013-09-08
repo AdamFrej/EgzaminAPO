@@ -36,7 +36,7 @@ public class SiatkaPanel extends JPanel {
         this.gridSize = gridSize;
     }
 
-    public ArrayList<Point>getPoints() {
+    public ArrayList<Point> getPoints() {
         return points;
     }
 
@@ -44,7 +44,8 @@ public class SiatkaPanel extends JPanel {
         clearPoints();
         this.points = points;
     }
-    public void setInterpolująca(KrzywaDyskretna krzywa){
+
+    public void setInterpolująca(KrzywaDyskretna krzywa) {
         interpolująca = krzywa;
         repaint();
     }
@@ -65,40 +66,39 @@ public class SiatkaPanel extends JPanel {
 
     public void setGridWidth(int gridWidth) {
         this.gridWidth = gridWidth;
-    }   
+    }
 
     private void clearLine() {
         boolean pointCrosedXLine;
         boolean pointCrosedYLine;
-        int prevLineNumberX=0;
+        int prevLineNumberX = 0;
         int lineNumberX;
-        int prevLineNumberY=0;
+        int prevLineNumberY = 0;
         int lineNumberY;
-            
+
         for (Point p : line) {
-            lineNumberX=p.x; 
-            pointCrosedXLine = Math.abs(lineNumberX-prevLineNumberX)>=gridWidth;            
-            lineNumberY=p.y;            
-            pointCrosedYLine = Math.abs(lineNumberY-prevLineNumberY)>=gridWidth;
+            lineNumberX = p.x;
+            pointCrosedXLine = Math.abs(lineNumberX - prevLineNumberX) >= gridWidth;
+            lineNumberY = p.y;
+            pointCrosedYLine = Math.abs(lineNumberY - prevLineNumberY) >= gridWidth;
             boolean pointCrossedLine = pointCrosedYLine || pointCrosedXLine;
-            boolean pointOnTheGrid = p.x<=gridSize*gridWidth && p.y<=gridSize*gridWidth;
-            if(pointCrossedLine && pointOnTheGrid){
+            boolean pointOnTheGrid = p.x <= gridSize * gridWidth && p.y <= gridSize * gridWidth;
+            if (pointCrossedLine && pointOnTheGrid) {
                 Point punkt = snapToGrid(p);
-                prevLineNumberY=punkt.y;
-                prevLineNumberX=punkt.x;
+                prevLineNumberY = punkt.y;
+                prevLineNumberX = punkt.x;
                 points.add(punkt);
-            } 
+            }
         }
         line.clear();
     }
 
-    
     private void drawGrid(Graphics g) {
-        for (int i = 0; i <= gridSize*gridWidth; i += gridWidth) {
-            g.drawLine(i, 0, i, gridSize*gridWidth);
+        for (int i = 0; i <= gridSize * gridWidth; i += gridWidth) {
+            g.drawLine(i, 0, i, gridSize * gridWidth);
         }
-        for (int i = 0; i <= gridSize*gridWidth; i += gridWidth) {
-            g.drawLine(0, i, gridSize*gridWidth, i);
+        for (int i = 0; i <= gridSize * gridWidth; i += gridWidth) {
+            g.drawLine(0, i, gridSize * gridWidth, i);
         }
     }
 
@@ -117,37 +117,50 @@ public class SiatkaPanel extends JPanel {
             g.fillOval(p.x - 5, p.y - 5, 10, 10);
         }
     }
-    private void drawRedLines(Graphics g){
+
+    private void drawRedLines(Graphics g) {
         g.setColor(Color.red);
-        for (int i=0;i<points.size()-1;i++) {
-            g.drawLine(points.get(i).x,points.get(i).y, points.get(i+1).x,points.get(i+1).y);
+        for (int i = 0; i < points.size() - 1; i++) {
+            g.drawLine(points.get(i).x, points.get(i).y, points.get(i + 1).x, points.get(i + 1).y);
         }
-        
+
     }
-    public void drawInterpolująca(Graphics g){
-        g.setColor(Color.blue);        
-        for(Point p:interpolująca.getPoints()){
+
+    public void drawInterpolująca(Graphics g) {
+        g.setColor(Color.blue);
+        for (Point p : interpolująca.getPoints()) {
             g.fillOval(p.x - 5, p.y - 5, 10, 10);
         }
-        
-        for(int i = 0; i < interpolująca.getPoints().size()-1; i++){
+        //g.setColor(Color.decode("0x3BBBD3"));
+        for (int i = 0; i < interpolująca.getPoints().size() - 1; i++) {
             Point obecny = interpolująca.getPoints().get(i);
-            Point następny = interpolująca.getPoints().get(i+1);
-            
-            double a =(następny.y- obecny.y)/(następny.x- obecny.x);
-            double b = obecny.y - a*obecny.x;
-            
-            for(int j=obecny.x;j<=następny.x;j++){
-                int y = (int) (a*j+b);
-                Point punktInterpolowany = snapToGrid(new Point(j,y));
-                g.fillOval(punktInterpolowany.x - 2, punktInterpolowany.y - 2, 4, 4);
+            Point następny = interpolująca.getPoints().get(i + 1);
+
+            double a = (double) (następny.y - obecny.y) / (double) (następny.x - obecny.x);
+            double b = obecny.y - a * obecny.x;
+
+
+            boolean pointCrosedXLine;
+            boolean pointCrosedYLine;
+            int prevLineNumberX = 0;
+            int lineNumberX;
+            int prevLineNumberY = 0;
+            int lineNumberY;
+            for (int j = obecny.x; j <= następny.x; j++) {
+                int y = (int) Math.round(a * j + b);
+                lineNumberX = j;
+                pointCrosedXLine = Math.abs(lineNumberX - prevLineNumberX) >= gridWidth;
+                lineNumberY = y;
+                pointCrosedYLine = Math.abs(lineNumberY - prevLineNumberY) >= gridWidth;
+
+                if (pointCrosedYLine || pointCrosedXLine) {
+                    Point punkt = snapToGrid(new Point(j, y));
+                    prevLineNumberY = punkt.y;
+                    prevLineNumberX = punkt.x;
+                    g.fillOval(punkt.x - 3, punkt.y - 3, 6, 6);
+                }
             }
-            
-        }
-        
-        
-        for (int i=0;i<interpolująca.getPoints().size()-1;i++) {
-            g.drawLine(interpolująca.getPoints().get(i).x,interpolująca.getPoints().get(i).y, interpolująca.getPoints().get(i+1).x,interpolująca.getPoints().get(i+1).y);
+
         }
     }
 
