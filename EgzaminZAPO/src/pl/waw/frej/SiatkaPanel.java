@@ -142,12 +142,20 @@ public class SiatkaPanel extends JPanel {
 
             boolean pointCrosedXLine;
             boolean pointCrosedYLine;
+            boolean warunek = true;
             int prevLineNumberX = 0;
             int lineNumberX;
             int prevLineNumberY = 0;
             int lineNumberY;
-            for (int j = obecny.x; j <= następny.x; j++) {
+
+            //for (int j = obecny.x; j <= następny.x; j++) 
+
+            int j = obecny.x;
+            int k = obecny.y;
+
+            while (warunek) {
                 int y = (int) Math.round(a * j + b);
+                if (obecny.x == następny.x) y=k;
                 lineNumberX = j;
                 pointCrosedXLine = Math.abs(lineNumberX - prevLineNumberX) >= gridWidth;
                 lineNumberY = y;
@@ -158,6 +166,23 @@ public class SiatkaPanel extends JPanel {
                     prevLineNumberY = punkt.y;
                     prevLineNumberX = punkt.x;
                     g.fillOval(punkt.x - 3, punkt.y - 3, 6, 6);
+                }
+                if (obecny.x < następny.x) {
+                    warunek = j <= następny.x;
+                    j++;
+                }
+                if (obecny.x > następny.x) {
+                    warunek = j >= następny.x;
+                    j--;
+                }
+                if (obecny.x == następny.x) {
+                    if (obecny.y < następny.y) {
+                        warunek = k <= następny.y;
+                        k++;
+                    } else {
+                        warunek = k >= następny.y;
+                        k--;
+                    }
                 }
             }
 
