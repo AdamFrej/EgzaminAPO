@@ -20,10 +20,12 @@ public class SiatkaPanel extends JPanel {
     private int gridSize;
     private ArrayList<Point> line = new ArrayList<>();
     private ArrayList<Point> points = new ArrayList<>();
+    private KrzywaDyskretna interpolująca;
 
     public SiatkaPanel() {
         this.gridWidth = 20;
         this.gridSize = 20;
+        this.interpolująca = new KrzywaDyskretna(gridWidth, gridSize);
     }
 
     public int getGridSize() {
@@ -39,7 +41,12 @@ public class SiatkaPanel extends JPanel {
     }
 
     public void setPoints(ArrayList<Point> points) {
+        clearPoints();
         this.points = points;
+    }
+    public void setInterpolująca(KrzywaDyskretna krzywa){
+        interpolująca = krzywa;
+        repaint();
     }
 
     @Override
@@ -49,6 +56,7 @@ public class SiatkaPanel extends JPanel {
         drawLine(g);
         drawPoints(g);
         drawRedLines(g);
+        drawInterpolująca(g);
     }
 
     public void addPointToLine(Point point) {
@@ -57,7 +65,7 @@ public class SiatkaPanel extends JPanel {
 
     public void setGridWidth(int gridWidth) {
         this.gridWidth = gridWidth;
-    }
+    }   
 
     private void clearLine() {
         boolean pointCrosedXLine;
@@ -116,6 +124,15 @@ public class SiatkaPanel extends JPanel {
         }
         
     }
+    public void drawInterpolująca(Graphics g){
+        g.setColor(Color.blue);        
+        for(Point p:interpolująca.getPoints()){
+            g.fillOval(p.x - 5, p.y - 5, 10, 10);
+        }
+        for (int i=0;i<interpolująca.getPoints().size()-1;i++) {
+            g.drawLine(interpolująca.getPoints().get(i).x,interpolująca.getPoints().get(i).y, interpolująca.getPoints().get(i+1).x,interpolująca.getPoints().get(i+1).y);
+        }
+    }
 
     private Point snapToGrid(Point p) {
         double halfPoint = gridWidth / 2.0;
@@ -144,6 +161,7 @@ public class SiatkaPanel extends JPanel {
 
     void clearPoints() {
         points.clear();
+        interpolująca = new KrzywaDyskretna(gridWidth, gridSize);
     }
 
     KrzywaDyskretna getKrzywa() {

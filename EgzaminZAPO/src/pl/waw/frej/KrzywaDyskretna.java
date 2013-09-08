@@ -49,7 +49,7 @@ public class KrzywaDyskretna {
         differentialDirections.put(5, "011111");
         differentialDirections.put(3, "0111111");
         differentialDirections.put(4, "01111111");
-        
+
         decimalDirections = new HashMap<>();
         decimalDirections.put(0, "0");
         decimalDirections.put(7, "+1");
@@ -59,7 +59,7 @@ public class KrzywaDyskretna {
         decimalDirections.put(5, "+3");
         decimalDirections.put(3, "-3");
         decimalDirections.put(4, "4");
-        
+
     }
 
     public KrzywaDyskretna(int gridWidth, int gridSize) {
@@ -97,17 +97,17 @@ public class KrzywaDyskretna {
                 writer.write(addLeadingZeros(points.get(0).x / gridWidth, leadingDigit) + addLeadingZeros(points.get(0).y / gridWidth, leadingDigit));
             } else {
                 int leadingDigit = (int) Math.pow(10, Integer.toString(gridSize - 1).length());
-                writer.write(addLeadingZerosDecimal(points.get(0).x/gridWidth, leadingDigit) + addLeadingZerosDecimal(points.get(0).y/gridWidth, leadingDigit));
+                writer.write(addLeadingZerosDecimal(points.get(0).x / gridWidth, leadingDigit) + addLeadingZerosDecimal(points.get(0).y / gridWidth, leadingDigit));
             }
 
 
             int deltaX = (points.get(0).x - points.get(1).x) / gridWidth + 1;
             int deltaY = (points.get(0).y - points.get(1).y) / gridWidth + 1;
             if (binary) {
-                    writer.write(directionCode(deltaX, deltaY));
-                } else {
-                    writer.write(directionValue(deltaX, deltaY).toString());
-                }
+                writer.write(directionCode(deltaX, deltaY));
+            } else {
+                writer.write(directionValue(deltaX, deltaY).toString());
+            }
 
             for (int i = 2; i < points.size(); i++) {
                 deltaX = (points.get(i - 1).x - points.get(i).x) / gridWidth + 1;
@@ -122,10 +122,9 @@ public class KrzywaDyskretna {
                 if (dirDiff < 0) {
                     dirDiff += 8;
                 }
-                if(binary){
-                writer.write(differentialDirections.get(dirDiff));
-                }
-                else{
+                if (binary) {
+                    writer.write(differentialDirections.get(dirDiff));
+                } else {
                     writer.write(decimalDirections.get(dirDiff));
                 }
 
@@ -158,7 +157,7 @@ public class KrzywaDyskretna {
                 writer.write(addLeadingZeros(points.get(0).x / gridWidth, leadingDigit) + addLeadingZeros(points.get(0).y / gridWidth, leadingDigit));
             } else {
                 int leadingDigit = (int) Math.pow(10, Integer.toString(gridSize - 1).length());
-                writer.write(addLeadingZerosDecimal(points.get(0).x/gridWidth, leadingDigit) + addLeadingZerosDecimal(points.get(0).y/gridWidth, leadingDigit));
+                writer.write(addLeadingZerosDecimal(points.get(0).x / gridWidth, leadingDigit) + addLeadingZerosDecimal(points.get(0).y / gridWidth, leadingDigit));
             }
             for (int i = 1; i < points.size(); i++) {
                 int deltaX = (points.get(i - 1).x - points.get(i).x) / gridWidth + 1;
@@ -286,7 +285,7 @@ public class KrzywaDyskretna {
         return addLeadingZeros(directionValue(deltaX, deltaY), 8);
     }
 
-    private Integer directionValue(int deltaX, int deltaY) {        
+    private Integer directionValue(int deltaX, int deltaY) {
         return directions.get(3 * deltaX + deltaY);
     }
 
@@ -298,11 +297,17 @@ public class KrzywaDyskretna {
         return Integer.toString(number + leadingDigit).substring(1);
     }
 
-    Object getIntr1Stats() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    String getIntr1Stats() {
+        return "n=5";
     }
 
     KrzywaDyskretna getInterpolująca() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Point> węzłyInterpolacji = new ArrayList<>();
+        for (int i = 0; i < points.size(); i++) {
+            if (i % 5 == 0) {
+                węzłyInterpolacji.add(points.get(i));
+            }
+        }
+        return new KrzywaDyskretna(węzłyInterpolacji, gridWidth, gridSize);
     }
 }
